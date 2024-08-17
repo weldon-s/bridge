@@ -5,8 +5,10 @@
 
 class Suit final {
    public:
+    std::string name() const;
     std::string label() const;
     bool operator<(const Suit& other) const;
+    bool operator==(const Suit& other) const;
 
     static const Suit& notrump();
     static const Suit& spades();
@@ -15,6 +17,7 @@ class Suit final {
     static const Suit& clubs();
 
    private:
+    const std::string n;
     const std::string l;
     const int value;
 
@@ -24,7 +27,7 @@ class Suit final {
     const static Suit& d;
     const static Suit& c;
 
-    Suit(std::string l, int value);
+    Suit(std::string n, std::string l, int value);
 };
 
 #endif

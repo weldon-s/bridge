@@ -1,9 +1,9 @@
 #include <iostream>
 
-#include "suit.h"
+#include "card.h"
 
 int main() {
-    Suit s{Suit::spades()};
-    std::cout << s.label() << std::endl;
-    return 0;
+    Card c{13, Suit::clubs()};
+
+    std::cout << c.name() << std::endl;
 }
