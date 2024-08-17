@@ -1,0 +1,7 @@
+# VSCode settings
+.vscode
+
+# Dependency files, object files, executable
+*.d
+*.o
+bridge
