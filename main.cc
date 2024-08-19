@@ -1,9 +1,12 @@
+#include <time.h>
+
 #include <iostream>
 
-#include "card.h"
+#include "hand.h"
+#include "player.h"
 
 int main() {
-    Card c{13, Suit::clubs()};
-
-    std::cout << c.name() << std::endl;
+    Player p1, p2, p3, p4;
+    std::array<Player*, 4> players{&p1, &p2, &p3, &p4};
+    Hand h{players};
 }

@@ -22,6 +22,8 @@ const Suit& Card::suit() const {
 
 std::string Card::name() const {
     switch (r) {
+        case 10:  // ten (everything is one character long)
+            return 'T' + s.label();
         case 11:  // jack
             return 'J' + s.label();
         case 12:  // queen
@@ -31,6 +33,19 @@ std::string Card::name() const {
         case 14:  // ace
             return 'A' + s.label();
         default:
-            return static_cast<char>('0' + r) + s.label();
+            return std::to_string(r) + s.label();
     }
 };
+
+std::vector<std::unique_ptr<Card>> Card::all_cards() {
+    std::vector<std::unique_ptr<Card>> cards{};
+
+    for (int i = min_rank; i <= max_rank; ++i) {
+        cards.emplace_back(std::make_unique<Card>(i, Suit::spades()));
+        cards.emplace_back(std::make_unique<Card>(i, Suit::hearts()));
+        cards.emplace_back(std::make_unique<Card>(i, Suit::diamonds()));
+        cards.emplace_back(std::make_unique<Card>(i, Suit::clubs()));
+    }
+
+    return cards;
+}

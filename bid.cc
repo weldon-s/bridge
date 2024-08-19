@@ -9,8 +9,7 @@ Bid::Bid(int l, const Suit& s) : l{l}, s{s} {
 }
 
 std::string Bid::name() const {
-    // TODO use proper string conversion
-    return static_cast<char>(l + '0') + s.name();
+    return std::to_string(l) + s.name();
 }
 
 const Suit& Bid::suit() const {
