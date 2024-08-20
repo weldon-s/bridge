@@ -9,10 +9,9 @@
 class Card {
     const int r;
     const Suit& s;
-
-   public:
     Card(int r, const Suit& s);
 
+   public:
     int rank() const;
     const Suit& suit() const;
     std::string name() const;
@@ -21,7 +20,8 @@ class Card {
     static const int min_rank{2};
     static const int max_rank{14};
 
-    static std::vector<std::unique_ptr<Card>> all_cards();
+    static std::vector<std::unique_ptr<Card>> all();
+    ~Card();
 };
 
 #endif

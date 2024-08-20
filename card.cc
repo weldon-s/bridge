@@ -1,5 +1,6 @@
 #include "card.h"
 
+#include <iostream>
 #include <stdexcept>
 
 Card::Card(int r, const Suit& s) : r{r}, s{s} {
@@ -10,6 +11,10 @@ Card::Card(int r, const Suit& s) : r{r}, s{s} {
     if ((r < min_rank) || (r > max_rank)) {
         throw std::invalid_argument{"invalid card rank"};
     }
+}
+
+Card::~Card() {
+    std::cout << "destructing\n";
 }
 
 int Card::rank() const {
@@ -37,14 +42,14 @@ std::string Card::name() const {
     }
 };
 
-std::vector<std::unique_ptr<Card>> Card::all_cards() {
+std::vector<std::unique_ptr<Card>> Card::all() {
     std::vector<std::unique_ptr<Card>> cards{};
 
     for (int i = min_rank; i <= max_rank; ++i) {
-        cards.emplace_back(std::make_unique<Card>(i, Suit::spades()));
-        cards.emplace_back(std::make_unique<Card>(i, Suit::hearts()));
-        cards.emplace_back(std::make_unique<Card>(i, Suit::diamonds()));
-        cards.emplace_back(std::make_unique<Card>(i, Suit::clubs()));
+        cards.emplace_back(std::unique_ptr<Card>(new Card{i, Suit::spades()}));
+        cards.emplace_back(std::unique_ptr<Card>(new Card{i, Suit::hearts()}));
+        cards.emplace_back(std::unique_ptr<Card>(new Card{i, Suit::diamonds()}));
+        cards.emplace_back(std::unique_ptr<Card>(new Card{i, Suit::clubs()}));
     }
 
     return cards;
