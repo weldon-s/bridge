@@ -6,7 +6,7 @@
 #include "card.h"
 #include "trick.h"
 
-void Player::update_cards(std::vector<Card*> new_cards) {
+void Player::set_cards(std::vector<Card*> new_cards) {
     cards = new_cards;
     played = std::map<Card*, bool>();
 
@@ -34,8 +34,17 @@ Player* Player::next() const {
     return _next;
 }
 
-void Player::set_nexts(std::array<Player*, 4> players) {
-    for (int i = 0; i < 3; ++i) {
+char Player::position() const {
+    return _position;
+}
+
+void Player::configure(std::array<Player*, 4> players) {
+    for (int i = 0; i < 4; ++i) {
         players[i]->_next = players[(i + 1) % 4];
     }
+
+    players[0]->_position = 'N';
+    players[1]->_position = 'E';
+    players[2]->_position = 'S';
+    players[3]->_position = 'W';
 }

@@ -25,24 +25,30 @@ Hand::Hand(std::array<Player*, 4> players) : cards{Card::all()}, players{players
     }
 
     for (int i = 0; i < 4; ++i) {
-        players[i]->update_cards(player_cards[i]);
+        players[i]->set_cards(player_cards[i]);
     }
 }
 
 void Hand::play() {
     // TODO update to be left neighbour of declarer
-    Player& winner = *players[0];
+    Player* winner = players[0];
 
     for (int i = 0; i < num_tricks; ++i) {
         Trick t;
 
-        Player& current{winner};
+        Player* current{winner};
 
         for (int i = 0; i < 4; ++i) {
-            t.add_play(current);
-            current = *current.next();
+            t.add_play(*current);
+            current = current->next();
         }
 
-        winner = t.winner();
+        winner = &t.winner();
+
+        _tricks.emplace_back(t);
     }
+}
+
+const std::vector<Trick>& Hand::tricks() {
+    return _tricks;
 }

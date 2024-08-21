@@ -15,11 +15,12 @@ class Hand {
 
     const std::vector<std::unique_ptr<Card>> cards;
     std::array<Player*, 4> players;
-    std::vector<Trick> tricks;
+    std::vector<Trick> _tricks;
 
    public:
     Hand(std::array<Player*, 4> players);
     void play();
+    const std::vector<Trick>& tricks();
 };
 
 #endif

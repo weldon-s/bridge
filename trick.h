@@ -8,7 +8,7 @@ class Card;
 class Suit;
 
 struct Play {
-    const Player& player;
+    Player& player;
     const Card& card;
 };
 
@@ -22,7 +22,7 @@ class Trick {
     const std::vector<Play>& plays() const;
     const Suit* leading() const;
     bool legal(const Card& c) const;
-    const Player& winner() const;
+    Player& winner() const;
 };
 
 #endif

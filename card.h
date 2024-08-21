@@ -21,7 +21,6 @@ class Card {
     static const int max_rank{14};
 
     static std::vector<std::unique_ptr<Card>> all();
-    ~Card();
 };
 
 #endif

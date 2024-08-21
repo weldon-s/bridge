@@ -25,14 +25,15 @@ void Trick::add_play(Player& p) {
     }
 }
 
-const Player& Trick::winner() const {
+Player& Trick::winner() const {
     int highestRank{Card::min_rank - 1};
-    const Player* winner = nullptr;
+    Player* winner = nullptr;
 
     for (const Play& play : _plays) {
         if ((play.card.suit() == *_leading) && (play.card.rank() > highestRank)) {
             // TODO trump
             winner = &play.player;
+            highestRank = play.card.rank();
         }
     }
 

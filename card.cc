@@ -1,6 +1,5 @@
 #include "card.h"
 
-#include <iostream>
 #include <stdexcept>
 
 Card::Card(int r, const Suit& s) : r{r}, s{s} {
@@ -11,10 +10,6 @@ Card::Card(int r, const Suit& s) : r{r}, s{s} {
     if ((r < min_rank) || (r > max_rank)) {
         throw std::invalid_argument{"invalid card rank"};
     }
-}
-
-Card::~Card() {
-    std::cout << "destructing\n";
 }
 
 int Card::rank() const {
