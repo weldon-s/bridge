@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <array>
+#include <stdexcept>
 
 #include "card.h"
 #include "trick.h"
@@ -12,7 +13,18 @@ void Player::set_cards(std::vector<Card*> new_cards) {
 
 const Card& Player::play_card(const Trick& t) {
     const Card& choice{select_card(t)};
-    cards_.erase(std::find_if(cards_.begin(), cards_.end(), [choice](Card* c) { return *c == choice; }));
+
+    const std::vector<Card*>& legal{legal_cards(t)};
+    auto legal_iter{std::find_if(legal.begin(), legal.end(), [choice](Card* c) { return *c == choice; })};
+
+    if (legal_iter == legal.end()) {
+        throw std::logic_error{"illegal card"};
+    }
+
+    // this is ok since every Card* in legal is also in cards_
+    auto iter{std::find_if(cards_.begin(), cards_.end(), [choice](Card* c) { return *c == choice; })};
+
+    cards_.erase(iter);
 
     return choice;
 }
@@ -27,6 +39,23 @@ char Player::position() const {
 
 const std::vector<Card*>& Player::cards() const {
     return cards_;
+}
+
+const std::vector<Card*> Player::legal_cards(const Trick& t) const {
+    std::vector<Card*> choices;
+
+    for (Card* c : cards()) {
+        if (t.following_suit(*c)) {
+            choices.emplace_back(c);
+        }
+    }
+
+    if (choices.empty()) {
+        return cards_;
+    }
+
+    // we have to copy here, but the array has <=13 elements, so this is negligible
+    return choices;
 }
 
 void Player::configure(std::array<Player*, 4> players) {

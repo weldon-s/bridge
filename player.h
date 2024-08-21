@@ -15,6 +15,7 @@ class Player {
 
    protected:
     const std::vector<Card*>& cards() const;
+    const std::vector<Card*> legal_cards(const Trick& t) const;
 
    public:
     void set_cards(std::vector<Card*> new_cards);
