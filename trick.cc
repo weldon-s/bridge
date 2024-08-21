@@ -16,7 +16,7 @@ bool Trick::following_suit(const Card& c) const {
 }
 
 void Trick::add_play(Player& p) {
-    const Card& c{p.select_card(*this)};
+    const Card& c{p.play_card(*this)};
 
     plays_.emplace_back(p, c);
 

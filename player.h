@@ -11,15 +11,19 @@ class Player {
     char position_{' '};
     Player* next_{nullptr};
     std::vector<Card*> cards_;
-    // TODO see if we can just remove cards after being played
+    virtual const Card& select_card(const Trick& t) = 0;
+
+   protected:
+    const std::vector<Card*>& cards() const;
 
    public:
     void set_cards(std::vector<Card*> new_cards);
-    const Card& select_card(const Trick& t);
+    const Card& play_card(const Trick& t);
     Player* next() const;
     char position() const;
 
     static void configure(std::array<Player*, 4> players);
+    virtual ~Player();
 };
 
 #endif
