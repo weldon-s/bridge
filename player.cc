@@ -1,5 +1,6 @@
 #include "player.h"
 
+#include <algorithm>
 #include <array>
 #include <random>
 
@@ -7,44 +8,48 @@
 #include "trick.h"
 
 void Player::set_cards(std::vector<Card*> new_cards) {
-    cards = new_cards;
-    played = std::map<Card*, bool>();
-
-    for (Card* c : cards) {
-        played[c] = false;
-    }
+    cards_ = new_cards;
 }
 
 const Card& Player::select_card(const Trick& t) {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dist(0, cards.size() - 1);
 
-    Card* card{cards[dist(gen)]};
+    std::vector<Card*> choices;
 
-    while (!t.legal(*card) && !played[card]) {
-        card = cards[dist(gen)];
+    for (Card* c : cards_) {
+        if (t.following_suit(*c)) {
+            choices.emplace_back(c);
+        }
     }
 
-    played[card] = true;
-    return *card;
+    if (choices.empty()) {
+        choices = cards_;
+    }
+
+    std::uniform_int_distribution<> dist(0, choices.size() - 1);
+
+    Card* ret{choices[dist(gen)]};
+    cards_.erase(std::find_if(cards_.begin(), cards_.end(), [ret](Card* c) { return *c == *ret; }));
+
+    return *ret;
 }
 
 Player* Player::next() const {
-    return _next;
+    return next_;
 }
 
 char Player::position() const {
-    return _position;
+    return position_;
 }
 
 void Player::configure(std::array<Player*, 4> players) {
     for (int i = 0; i < 4; ++i) {
-        players[i]->_next = players[(i + 1) % 4];
+        players[i]->next_ = players[(i + 1) % 4];
     }
 
-    players[0]->_position = 'N';
-    players[1]->_position = 'E';
-    players[2]->_position = 'S';
-    players[3]->_position = 'W';
+    players[0]->position_ = 'N';
+    players[1]->position_ = 'E';
+    players[2]->position_ = 'S';
+    players[3]->position_ = 'W';
 }

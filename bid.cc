@@ -2,28 +2,28 @@
 
 #include <stdexcept>
 
-Bid::Bid(int l, const Suit& s) : l{l}, s{s} {
-    if ((l < min_level) || (l > max_level)) {
+Bid::Bid(int l, const Suit& s) : level_{l}, suit_{s} {
+    if ((level_ < min_level) || (level_ > max_level)) {
         throw std::invalid_argument{"invalid bid level"};
     }
 }
 
 std::string Bid::name() const {
-    return std::to_string(l) + s.name();
+    return std::to_string(level_) + suit_.name();
 }
 
 const Suit& Bid::suit() const {
-    return s;
+    return suit_;
 }
 
 int Bid::level() const {
-    return l;
+    return level_;
 }
 
 bool Bid::operator<(const Bid& other) const {
-    if (l != other.l) {
-        return l < other.l;
+    if (level_ != other.level_) {
+        return level_ < other.level_;
     }
 
-    return s < other.s;
+    return suit_ < other.suit_;
 }

@@ -6,14 +6,14 @@ const Suit& Suit::h{Suit("H", "♥", 2)};
 const Suit& Suit::d{Suit("D", "♦", 1)};
 const Suit& Suit::c{Suit("C", "♣", 0)};
 
-Suit::Suit(std::string n, std::string l, int value) : n{n}, l{l}, value{value} {}
+Suit::Suit(std::string n, std::string l, int value) : name_{n}, label_{l}, value{value} {}
 
 std::string Suit::name() const {
-    return n;
+    return name_;
 }
 
 std::string Suit::label() const {
-    return l;
+    return label_;
 }
 
 bool Suit::operator<(const Suit& other) const {

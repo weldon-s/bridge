@@ -2,7 +2,7 @@
 
 #include <stdexcept>
 
-Card::Card(int r, const Suit& s) : r{r}, s{s} {
+Card::Card(int r, const Suit& s) : rank_{r}, suit_{s} {
     if (s == Suit::notrump()) {
         throw std::invalid_argument{"invalid card suit"};
     }
@@ -13,29 +13,33 @@ Card::Card(int r, const Suit& s) : r{r}, s{s} {
 }
 
 int Card::rank() const {
-    return r;
+    return rank_;
 }
 
 const Suit& Card::suit() const {
-    return s;
+    return suit_;
 }
 
 std::string Card::name() const {
-    switch (r) {
+    switch (rank_) {
         case 10:  // ten (everything is one character long)
-            return 'T' + s.label();
+            return "T" + suit_.label();
         case 11:  // jack
-            return 'J' + s.label();
+            return 'J' + suit_.label();
         case 12:  // queen
-            return 'Q' + s.label();
+            return 'Q' + suit_.label();
         case 13:  // king
-            return 'K' + s.label();
+            return 'K' + suit_.label();
         case 14:  // ace
-            return 'A' + s.label();
+            return 'A' + suit_.label();
         default:
-            return std::to_string(r) + s.label();
+            return std::to_string(rank_) + suit_.label();
     }
 };
+
+bool Card::operator==(const Card& other) const {
+    return (rank_ == other.rank_) && (suit_ == other.suit_);
+}
 
 std::vector<std::unique_ptr<Card>> Card::all() {
     std::vector<std::unique_ptr<Card>> cards{};

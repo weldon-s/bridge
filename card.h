@@ -7,14 +7,15 @@
 #include "suit.h"
 
 class Card {
-    const int r;
-    const Suit& s;
+    const int rank_;
+    const Suit& suit_;
     Card(int r, const Suit& s);
 
    public:
     int rank() const;
     const Suit& suit() const;
     std::string name() const;
+    bool operator==(const Card& other) const;
 
     // we could treat aces as 1s, but this is easier since they're always high in bridge
     static const int min_rank{2};

@@ -13,9 +13,9 @@ class Player;
 class Hand {
     static const int num_tricks{13};
 
-    const std::vector<std::unique_ptr<Card>> cards;
-    std::array<Player*, 4> players;
-    std::vector<Trick> _tricks;
+    const std::vector<std::unique_ptr<Card>> cards_;
+    std::array<Player*, 4> players_;
+    std::vector<Trick> tricks_;
 
    public:
     Hand(std::array<Player*, 4> players);

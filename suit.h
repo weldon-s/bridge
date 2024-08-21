@@ -17,8 +17,8 @@ class Suit final {
     static const Suit& clubs();
 
    private:
-    const std::string n;
-    const std::string l;
+    const std::string name_;
+    const std::string label_;
     const int value;
 
     const static Suit& nt;

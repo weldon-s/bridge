@@ -8,10 +8,10 @@ class Card;
 class Trick;
 
 class Player {
-    char _position{' '};
-    Player* _next{nullptr};
-    std::vector<Card*> cards;
-    std::map<Card*, bool> played;
+    char position_{' '};
+    Player* next_{nullptr};
+    std::vector<Card*> cards_;
+    // TODO see if we can just remove cards after being played
 
    public:
     void set_cards(std::vector<Card*> new_cards);

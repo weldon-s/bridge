@@ -4,24 +4,24 @@
 #include "player.h"
 
 const Suit* Trick::leading() const {
-    return _leading;
+    return leading_;
 }
 
 const std::vector<Play>& Trick::plays() const {
-    return _plays;
+    return plays_;
 }
 
-bool Trick::legal(const Card& c) const {
-    return !_leading || (*_leading == c.suit());
+bool Trick::following_suit(const Card& c) const {
+    return !leading_ || (*leading_ == c.suit());
 }
 
 void Trick::add_play(Player& p) {
     const Card& c{p.select_card(*this)};
 
-    _plays.emplace_back(p, c);
+    plays_.emplace_back(p, c);
 
-    if (_plays.size() == 1) {
-        _leading = &c.suit();
+    if (plays_.size() == 1) {
+        leading_ = &c.suit();
     }
 }
 
@@ -29,8 +29,8 @@ Player& Trick::winner() const {
     int highestRank{Card::min_rank - 1};
     Player* winner = nullptr;
 
-    for (const Play& play : _plays) {
-        if ((play.card.suit() == *_leading) && (play.card.rank() > highestRank)) {
+    for (const Play& play : plays_) {
+        if ((play.card.suit() == *leading_) && (play.card.rank() > highestRank)) {
             // TODO trump
             winner = &play.player;
             highestRank = play.card.rank();

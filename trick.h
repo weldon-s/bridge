@@ -13,15 +13,15 @@ struct Play {
 };
 
 class Trick {
-    std::vector<Play> _plays;
-    const Suit* _leading{nullptr};
+    std::vector<Play> plays_;
+    const Suit* leading_{nullptr};
     // TODO field for trump
 
    public:
     void add_play(Player& p);
     const std::vector<Play>& plays() const;
     const Suit* leading() const;
-    bool legal(const Card& c) const;
+    bool following_suit(const Card& c) const;
     Player& winner() const;
 };
 

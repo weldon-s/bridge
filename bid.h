@@ -3,8 +3,8 @@
 #include "suit.h"
 
 class Bid {
-    const int l;
-    const Suit& s;
+    const int level_;
+    const Suit& suit_;
 
    public:
     Bid(int l, const Suit& s);
