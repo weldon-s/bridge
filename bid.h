@@ -3,14 +3,12 @@
 #include "suit.h"
 
 class Bid {
-    const int level_;
-    const Suit& suit_;
-
    public:
     Bid(int l, const Suit& s);
+    const int level;
+    const Suit& suit;
+
     std::string name() const;
-    const Suit& suit() const;
-    int level() const;
     bool operator<(const Bid& other) const;
 
     static const int min_level{1};

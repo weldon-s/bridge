@@ -12,7 +12,7 @@ const std::vector<Play>& Trick::plays() const {
 }
 
 bool Trick::following_suit(const Card& c) const {
-    return !leading_ || (*leading_ == c.suit());
+    return !leading_ || (*leading_ == c.suit);
 }
 
 void Trick::add_play(Player& p) {
@@ -21,7 +21,7 @@ void Trick::add_play(Player& p) {
     plays_.emplace_back(p, c);
 
     if (plays_.size() == 1) {
-        leading_ = &c.suit();
+        leading_ = &c.suit;
     }
 }
 
@@ -30,10 +30,10 @@ Player& Trick::winner() const {
     Player* winner = nullptr;
 
     for (const Play& play : plays_) {
-        if ((play.card.suit() == *leading_) && (play.card.rank() > highestRank)) {
+        if ((play.card.suit == *leading_) && (play.card.rank > highestRank)) {
             // TODO trump
             winner = &play.player;
-            highestRank = play.card.rank();
+            highestRank = play.card.rank;
         }
     }
 

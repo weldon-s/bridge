@@ -17,6 +17,7 @@ class Hand {
     std::array<Player*, 4> players_;
     std::vector<Trick> tricks_;
     Player* leader_;
+    Suit* trump_;
 
    public:
     Hand(std::array<Player*, 4> players);

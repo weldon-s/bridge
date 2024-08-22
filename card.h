@@ -7,14 +7,12 @@
 #include "suit.h"
 
 class Card {
-    const int rank_;
-    const Suit& suit_;
     Card(int r, const Suit& s);
 
    public:
-    int rank() const;
+    const int rank;
+    const Suit& suit;
     char rank_char() const;
-    const Suit& suit() const;
     std::string name() const;
     bool operator==(const Card& other) const;
 

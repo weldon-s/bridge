@@ -5,29 +5,29 @@
 
 class Suit final {
    public:
-    std::string name() const;
-    std::string label() const;
+    enum Value {
+        CLUBS,
+        DIAMONDS,
+        HEARTS,
+        SPADES,
+        NOTRUMP
+    };
+
+    const Value value;
+    const std::string name;
+    const std::string label;
+
     bool operator<(const Suit& other) const;
     bool operator==(const Suit& other) const;
 
-    static const Suit& notrump();
-    static const Suit& spades();
-    static const Suit& hearts();
-    static const Suit& diamonds();
-    static const Suit& clubs();
+    const static Suit& notrump;
+    const static Suit& spades;
+    const static Suit& hearts;
+    const static Suit& diamonds;
+    const static Suit& clubs;
 
    private:
-    const std::string name_;
-    const std::string label_;
-    const int value;
-
-    const static Suit& nt;
-    const static Suit& s;
-    const static Suit& h;
-    const static Suit& d;
-    const static Suit& c;
-
-    Suit(std::string n, std::string l, int value);
+    Suit(std::string n, std::string l, Value value);
 };
 
 #endif

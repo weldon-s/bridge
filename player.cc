@@ -7,7 +7,8 @@
 #include "card.h"
 #include "trick.h"
 
-void Player::set_cards(std::vector<Card*> new_cards) {
+void Player::set_cards(std::vector<Card*>& new_cards) {
+    std::sort(new_cards.begin(), new_cards.end(), comparator(Suit::notrump));
     cards_ = new_cards;
 }
 
@@ -67,6 +68,37 @@ void Player::configure(std::array<Player*, 4>& players) {
     players[1]->position_ = 'E';
     players[2]->position_ = 'S';
     players[3]->position_ = 'W';
+}
+
+// cant have member function to pass in as comparator, so we need to do it this way
+std::function<bool(const Card* c1, const Card* c2)> Player::comparator(const Suit& trump) {
+    std::map<Suit, int> ordering;
+
+    switch (trump.value) {
+        case Suit::NOTRUMP:
+        case Suit::SPADES:
+            ordering = std::map<Suit, int>{{Suit::spades, 0}, {Suit::hearts, 1}, {Suit::clubs, 2}, {Suit::diamonds, 3}};
+            break;
+
+        case Suit::HEARTS:
+            ordering = std::map<Suit, int>{{Suit::hearts, 0}, {Suit::spades, 1}, {Suit::diamonds, 2}, {Suit::clubs, 3}};
+            break;
+
+        case Suit::DIAMONDS:
+            ordering = std::map<Suit, int>{{Suit::diamonds, 0}, {Suit::spades, 1}, {Suit::hearts, 2}, {Suit::clubs, 3}};
+            break;
+
+        case Suit::CLUBS:
+            ordering = std::map<Suit, int>{{Suit::clubs, 0}, {Suit::hearts, 1}, {Suit::spades, 2}, {Suit::diamonds, 3}};
+    }
+
+    return [ordering](const Card* c1, const Card* c2) -> bool {
+        if (c1->suit == c2->suit) {
+            return c2->rank < c1->rank;
+        }
+
+        return ordering.at(c1->suit) < ordering.at(c2->suit);
+    };
 }
 
 Player::~Player() {}

@@ -8,11 +8,11 @@
 std::ostream& operator<<(std::ostream& out, const Card& c) {
     out << WHITE_BG << BLACK << c.rank_char();
 
-    if (c.suit() == Suit::diamonds() || c.suit() == Suit::hearts()) {
+    if (c.suit == Suit::diamonds || c.suit == Suit::hearts) {
         out << RED;
     }
 
-    out << c.suit().label() << RESET;
+    out << c.suit.label << RESET;
     return out;
 }
 

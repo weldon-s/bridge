@@ -7,7 +7,7 @@
 #include "card.h"
 #include "player.h"
 
-Hand::Hand(std::array<Player*, 4> players) : cards_{Card::all()}, players_{players}, leader_{nullptr} {
+Hand::Hand(std::array<Player*, 4> players) : cards_{Card::all()}, players_{players}, leader_{nullptr}, trump_{nullptr} {
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dist(0, 3);
