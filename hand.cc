@@ -7,7 +7,7 @@
 #include "card.h"
 #include "player.h"
 
-Hand::Hand(std::array<Player*, 4> players) : cards_{Card::all()}, players_{players} {
+Hand::Hand(std::array<Player*, 4> players) : cards_{Card::all()}, players_{players}, leader_{nullptr} {
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dist(0, 3);
@@ -29,26 +29,34 @@ Hand::Hand(std::array<Player*, 4> players) : cards_{Card::all()}, players_{playe
     }
 }
 
-void Hand::play() {
+const Trick& Hand::play_trick() {
     // TODO update to be left neighbour of declarer
-    Player* winner = players_[0];
-
-    for (int i = 0; i < num_tricks; ++i) {
-        Trick t;
-
-        Player* current{winner};
-
-        for (int i = 0; i < 4; ++i) {
-            t.add_play(*current);
-            current = current->next();
-        }
-
-        winner = &t.winner();
-
-        tricks_.emplace_back(t);
+    if (!leader_) {
+        leader_ = players_[0];
     }
+
+    Trick t;
+    Player* current{leader_};
+
+    for (int i = 0; i < 4; ++i) {
+        t.add_play(*current);
+        current = current->next();
+    }
+
+    leader_ = &t.winner();
+    tricks_.emplace_back(t);
+
+    return tricks_[tricks_.size() - 1];
+}
+
+bool Hand::done() {
+    return tricks_.size() == 13;
 }
 
 const std::vector<Trick>& Hand::tricks() {
     return tricks_;
+}
+
+const std::array<Player*, 4>& Hand::players() const {
+    return players_;
 }

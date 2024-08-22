@@ -13,6 +13,7 @@ class Card {
 
    public:
     int rank() const;
+    char rank_char() const;
     const Suit& suit() const;
     std::string name() const;
     bool operator==(const Card& other) const;

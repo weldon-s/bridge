@@ -58,7 +58,7 @@ const std::vector<Card*> Player::legal_cards(const Trick& t) const {
     return choices;
 }
 
-void Player::configure(std::array<Player*, 4> players) {
+void Player::configure(std::array<Player*, 4>& players) {
     for (int i = 0; i < 4; ++i) {
         players[i]->next_ = players[(i + 1) % 4];
     }

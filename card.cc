@@ -16,25 +16,29 @@ int Card::rank() const {
     return rank_;
 }
 
+char Card::rank_char() const {
+    switch (rank_) {
+        case 10:  // ten
+            return 'T';
+        case 11:  // jack
+            return 'J';
+        case 12:  // queen
+            return 'Q';
+        case 13:  // king
+            return 'K';
+        case 14:  // ace
+            return 'A';
+        default:
+            return rank_ + '0';
+    }
+}
+
 const Suit& Card::suit() const {
     return suit_;
 }
 
 std::string Card::name() const {
-    switch (rank_) {
-        case 10:  // ten (everything is one character long)
-            return "T" + suit_.label();
-        case 11:  // jack
-            return 'J' + suit_.label();
-        case 12:  // queen
-            return 'Q' + suit_.label();
-        case 13:  // king
-            return 'K' + suit_.label();
-        case 14:  // ace
-            return 'A' + suit_.label();
-        default:
-            return std::to_string(rank_) + suit_.label();
-    }
+    return rank_char() + suit_.label();
 };
 
 bool Card::operator==(const Card& other) const {

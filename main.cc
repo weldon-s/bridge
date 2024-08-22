@@ -4,6 +4,7 @@
 
 #include "hand.h"
 #include "randomplayer.h"
+#include "view.h"
 
 int main() {
     RandomPlayer p1, p2, p3, p4;
@@ -11,13 +12,18 @@ int main() {
     Player::configure(players);
     Hand h{players};
 
-    h.play();
+    while (!h.done()) {
+        std::cout << *h.players()[0];
 
-    for (const Trick& t : h.tricks()) {
+        const Trick& t{h.play_trick()};
+
         for (const Play& p : t.plays()) {
-            std::cout << p.player.position() << ": " << p.card.name() << "    ";
+            std::cout << p.player.position() << ": " << p.card << "    ";
         }
 
-        std::cout << "(" << t.winner().position() << " wins)" << std::endl;
+        std::cout << "(" << t.winner().position() << " wins)" << std::endl
+                  << std::endl;
     }
+
+    return 0;
 }
