@@ -2,28 +2,39 @@
 
 #include <iostream>
 
+#include "double.h"
 #include "hand.h"
+#include "levelbid.h"
 #include "randomplayer.h"
 #include "view.h"
 
 int main() {
-    RandomPlayer p1, p2, p3, p4;
-    std::array<Player*, 4> players{&p1, &p2, &p3, &p4};
-    Player::configure(players);
-    Hand h{players};
+    Bid* b = new LevelBid{3, Suit::spades};
 
-    while (!h.done()) {
-        std::cout << *h.players()[0];
+    Bid* c = new Double{*b};
 
-        const Trick& t{h.play_trick()};
+    std::cout << b->name() << ' ' << c->name() << std::endl;
 
-        for (const Play& p : t.plays()) {
-            std::cout << p.player.position() << ": " << p.card << "    ";
-        }
+    delete b;
+    delete c;
 
-        std::cout << "(" << t.winner().position() << " wins)" << std::endl
-                  << std::endl;
-    }
+    // RandomPlayer p1, p2, p3, p4;
+    // std::array<Player*, 4> players{&p1, &p2, &p3, &p4};
+    // Player::configure(players);
+    // Hand h{players};
+
+    // while (!h.done()) {
+    //     std::cout << *h.players()[0];
+
+    //     const Trick& t{h.play_trick()};
+
+    //     for (const Play& p : t.plays()) {
+    //         std::cout << p.player.position() << ": " << p.card << "    ";
+    //     }
+
+    //     std::cout << "(" << t.winner().position() << " wins)" << std::endl
+    //               << std::endl;
+    // }
 
     return 0;
 }

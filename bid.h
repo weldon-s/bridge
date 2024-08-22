@@ -1,17 +1,22 @@
 #ifndef BID_H
 #define BID_H
+
 #include "suit.h"
+
+class Player;
 
 class Bid {
    public:
-    Bid(int l, const Suit& s);
-    const int level;
-    const Suit& suit;
-
-    std::string name() const;
     bool operator<(const Bid& other) const;
+    virtual std::string name() const = 0;
+    virtual int level() const = 0;
+    virtual const Suit& suit() const = 0;
+    // TODO method to get points
+    virtual ~Bid();
+};
 
-    static const int min_level{1};
-    static const int max_level{7};
+struct BidPlay {
+    const Bid& bid;
+    const Player& player;
 };
 #endif
