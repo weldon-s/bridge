@@ -23,7 +23,15 @@ int main() {
     Player::configure(players);
     Hand h{players};
 
-    while (!h.done()) {
+    while (!h.done_bidding()) {
+        const Bid& b{h.play_bid()};
+
+        std::cout << b.name() << std::endl;
+    }
+
+    std::cout << "contract: " << h.contract()->name() << std::endl;
+
+    while (!h.done_playing()) {
         std::cout << *h.players()[0];
 
         const Trick& t{h.play_trick()};

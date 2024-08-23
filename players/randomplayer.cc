@@ -23,8 +23,8 @@ std::unique_ptr<Bid> RandomPlayer::select_bid(const std::vector<BidPlay>& bids) 
     }
 
     // TODO doubles?
-    std::uniform_int_distribution level_dist(0, 7);
-    std::uniform_int_distribution suit_dist(0, 3);
+    std::uniform_int_distribution level_dist(1, 7);
+    std::uniform_int_distribution suit_dist(0, 4);
 
     while (true) {
         LevelBid lb{level_dist(mt_), Suit::from_value(suit_dist(mt_))};

@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <stdexcept>
 
-Double::Double(const Bid& previous) : previous_{previous} {
+Double::Double(const Bid& previous) : Bid{false}, previous_{previous} {
     const std::string& prev{previous_.name()};
     const std::string& double_x{"XX"};  // cost of this is negligible since bids are not created often
     // also, most bids are not doubles

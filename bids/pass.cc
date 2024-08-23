@@ -1,6 +1,6 @@
 #include "bids/pass.h"
 
-Pass::Pass(const Bid* previous) : previous_{previous} {}
+Pass::Pass(const Bid* previous) : Bid{true}, previous_{previous} {}
 
 std::string Pass::name() const {
     return "Pass";

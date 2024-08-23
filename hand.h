@@ -23,11 +23,13 @@ class Hand {
 
    public:
     Hand(std::array<Player*, 4> players);
-    bool done();
+    bool done_playing() const;
+    bool done_bidding() const;
+    const Bid* contract() const;
+    const std::vector<Trick>& tricks() const;
+    const std::array<Player*, 4>& players() const;
     const Trick& play_trick();
     const Bid& play_bid();
-    const std::vector<Trick>& tricks();
-    const std::array<Player*, 4>& players() const;
 };
 
 #endif

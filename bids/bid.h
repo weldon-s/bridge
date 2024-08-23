@@ -9,6 +9,8 @@ class Player;
 
 class Bid {
    public:
+    Bid(bool pass);
+    const bool pass;
     bool operator<(const Bid& other) const;
     virtual std::string name() const = 0;
     virtual int level() const = 0;

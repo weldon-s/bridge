@@ -3,7 +3,7 @@
 
 #include <stdexcept>
 
-LevelBid::LevelBid(int l, const Suit& s) : level_{l}, suit_{s} {
+LevelBid::LevelBid(int l, const Suit& s) : Bid{false}, level_{l}, suit_{s} {
     if ((l < min_level) || (l > max_level)) {
         throw std::invalid_argument{"invalid bid level"};
     }

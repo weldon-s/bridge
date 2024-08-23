@@ -35,7 +35,7 @@ std::unique_ptr<Bid> Player::play_bid(const std::vector<BidPlay>& bids) {
 
     // TODO somehow also prevent illegal doubles?
     // e.g. doubling on partner's bid or something like 1C 1DX
-    if (*choice < *bids.back().bid) {
+    if (!bids.empty() && (*choice < *bids.back().bid)) {
         throw std::logic_error{"illegal bid"};
     }
 

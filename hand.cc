@@ -57,14 +57,43 @@ const Bid& Hand::play_bid() {
     std::unique_ptr<Bid> bid{current->play_bid(bids_)};
 
     bids_.emplace_back(*current, std::move(bid));
-    return *bid;
+    return *bids_.back().bid;
 }
 
-bool Hand::done() {
-    return tricks_.size() == 13;
+bool Hand::done_playing() const {
+    // if we are passed out or we have played 13 tricks, we are done
+    return (bids_.back().bid->level() == 0) || (tricks_.size() == 13);
 }
 
-const std::vector<Trick>& Hand::tricks() {
+bool Hand::done_bidding() const {
+    // need at least 3 passes -> need at least 3 bids
+    if (bids_.size() < 3) {
+        return false;
+    }
+
+    auto iter = bids_.rbegin();
+
+    // check if last 3 bids are all passes
+    for (int i = 0; i < 3; ++iter, ++i) {
+        if (!iter->bid->pass) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+const Bid* Hand::contract() const {
+    for (auto iter = bids_.rbegin(); iter != bids_.rend(); ++iter) {
+        if (!iter->bid->pass) {
+            return iter->bid.get();
+        }
+    }
+
+    return bids_.empty() ? nullptr : bids_.back().bid.get();
+}
+
+const std::vector<Trick>& Hand::tricks() const {
     return tricks_;
 }
 
