@@ -15,3 +15,18 @@ bool Suit::operator<(const Suit& other) const {
 bool Suit::operator==(const Suit& other) const {
     return value == other.value;
 }
+
+const Suit& Suit::from_value(int v) {
+    switch (v) {
+        case NOTRUMP:
+            return notrump;
+        case SPADES:
+            return spades;
+        case HEARTS:
+            return hearts;
+        case DIAMONDS:
+            return diamonds;
+        case CLUBS:
+            return clubs;
+    }
+}

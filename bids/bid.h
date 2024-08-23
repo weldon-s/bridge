@@ -1,6 +1,8 @@
 #ifndef BID_H
 #define BID_H
 
+#include <memory>
+
 #include "suit.h"
 
 class Player;
@@ -16,7 +18,7 @@ class Bid {
 };
 
 struct BidPlay {
-    const Bid& bid;
-    const Player& player;
+    Player& player;
+    std::unique_ptr<Bid> bid;
 };
 #endif

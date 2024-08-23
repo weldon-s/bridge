@@ -49,6 +49,17 @@ const Trick& Hand::play_trick() {
     return tricks_[tricks_.size() - 1];
 }
 
+const Bid& Hand::play_bid() {
+    // if no bids, assume first player is dealer
+    // otherwise, get bid from player following last bidder
+    Player* current{bids_.empty() ? players_[0] : bids_.back().player.next()};
+
+    std::unique_ptr<Bid> bid{current->play_bid(bids_)};
+
+    bids_.emplace_back(*current, std::move(bid));
+    return *bid;
+}
+
 bool Hand::done() {
     return tricks_.size() == 13;
 }

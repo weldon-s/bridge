@@ -26,6 +26,8 @@ class Suit final {
     const static Suit& diamonds;
     const static Suit& clubs;
 
+    static const Suit& from_value(int v);
+
    private:
     Suit(std::string n, std::string l, Value value);
 };

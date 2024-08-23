@@ -4,10 +4,10 @@
 #include "bids/bid.h"
 
 class Pass : public Bid {
-    const Bid& previous_;
+    const Bid* previous_;
 
    public:
-    Pass(const Bid& previous);
+    Pass(const Bid* previous);
 
     std::string name() const override;
     int level() const override;

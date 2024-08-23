@@ -5,6 +5,7 @@
 #include <memory>
 #include <vector>
 
+#include "bids/bid.h"
 #include "card.h"
 #include "trick.h"
 
@@ -18,11 +19,13 @@ class Hand {
     std::vector<Trick> tricks_;
     Player* leader_;
     Suit* trump_;
+    std::vector<BidPlay> bids_;
 
    public:
     Hand(std::array<Player*, 4> players);
     bool done();
     const Trick& play_trick();
+    const Bid& play_bid();
     const std::vector<Trick>& tricks();
     const std::array<Player*, 4>& players() const;
 };

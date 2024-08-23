@@ -30,6 +30,18 @@ const Card& Player::play_card(const Trick& t) {
     return choice;
 }
 
+std::unique_ptr<Bid> Player::play_bid(const std::vector<BidPlay>& bids) {
+    std::unique_ptr<Bid> choice = select_bid(bids);
+
+    // TODO somehow also prevent illegal doubles?
+    // e.g. doubling on partner's bid or something like 1C 1DX
+    if (*choice < *bids.back().bid) {
+        throw std::logic_error{"illegal bid"};
+    }
+
+    return choice;
+}
+
 Player* Player::next() const {
     return next_;
 }
