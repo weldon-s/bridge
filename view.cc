@@ -27,3 +27,13 @@ std::ostream& operator<<(std::ostream& out, const Player& p) {
 
     return out;
 }
+
+std::ostream& operator<<(std::ostream& out, const Bid& b) {
+    out << b.name();
+    return out;
+}
+
+std::ostream& operator<<(std::ostream& out, const BidPlay& bp) {
+    out << bp.player.position() << ": " << *bp.bid;
+    return out;
+}

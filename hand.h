@@ -29,7 +29,7 @@ class Hand {
     const std::vector<Trick>& tricks() const;
     const std::array<Player*, 4>& players() const;
     const Trick& play_trick();
-    const Bid& play_bid();
+    const BidPlay& play_bid();
 };
 
 #endif

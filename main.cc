@@ -24,9 +24,9 @@ int main() {
     Hand h{players};
 
     while (!h.done_bidding()) {
-        const Bid& b{h.play_bid()};
+        const BidPlay& bp{h.play_bid()};
 
-        std::cout << b.name() << std::endl;
+        std::cout << bp << std::endl;
     }
 
     std::cout << "contract: " << h.contract()->name() << std::endl;
