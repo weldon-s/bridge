@@ -1,5 +1,7 @@
 #include "suit.h"
 
+#include <stdexcept>
+
 const Suit& Suit::notrump{Suit("NT", "", Value::NOTRUMP)};
 const Suit& Suit::spades{Suit("S", "♠", Value::SPADES)};
 const Suit& Suit::hearts{Suit("H", "♥", Value::HEARTS)};
@@ -28,5 +30,7 @@ const Suit& Suit::from_value(int v) {
             return diamonds;
         case CLUBS:
             return clubs;
+        default:
+            throw std::invalid_argument{"no suit with given value"};
     }
 }
