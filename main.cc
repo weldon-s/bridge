@@ -29,7 +29,7 @@ int main() {
         std::cout << bp << std::endl;
     }
 
-    std::cout << "contract: " << h.contract()->name() << std::endl;
+    std::cout << "contract is " << *h.contract() << std::endl;
 
     while (!h.done_playing()) {
         std::cout << *h.players()[0];

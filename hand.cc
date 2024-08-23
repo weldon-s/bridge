@@ -30,12 +30,11 @@ Hand::Hand(std::array<Player*, 4> players) : cards_{Card::all()}, players_{playe
 }
 
 const Trick& Hand::play_trick() {
-    // TODO update to be left neighbour of declarer
     if (!leader_) {
-        leader_ = players_[0];
+        leader_ = declarer();
     }
 
-    Trick t;
+    Trick t{contract()->bid->suit()};
     Player* current{leader_};
 
     for (int i = 0; i < 4; ++i) {
@@ -47,6 +46,20 @@ const Trick& Hand::play_trick() {
     tricks_.emplace_back(t);
 
     return tricks_[tricks_.size() - 1];
+}
+
+Player* Hand::declarer() const {
+    const BidPlay& contr{*contract()};
+
+    for (auto iter = bids_.begin(); iter != bids_.end(); ++iter) {
+        if ((iter->bid->suit() == contr.bid->suit()) &&
+            ((&iter->player == &contr.player) || (iter->player.partner() == &contr.player))) {
+            return &iter->player;
+        }
+    }
+
+    // this is not needed, but keeps compiler from complaining
+    return nullptr;
 }
 
 const BidPlay& Hand::play_bid() {
@@ -66,8 +79,10 @@ bool Hand::done_playing() const {
 }
 
 bool Hand::done_bidding() const {
-    // need at least 3 passes -> need at least 3 bids
-    if (bids_.size() < 3) {
+    // we will always have >= 4 bids if we are done
+    // if first 3 pass, 4th can bid
+    // otherwise, at least one player has bid + we need 3 passes to confirm their bid
+    if (bids_.size() < 4) {
         return false;
     }
 
@@ -83,14 +98,14 @@ bool Hand::done_bidding() const {
     return true;
 }
 
-const Bid* Hand::contract() const {
+const BidPlay* Hand::contract() const {
     for (auto iter = bids_.rbegin(); iter != bids_.rend(); ++iter) {
         if (!iter->bid->pass) {
-            return iter->bid.get();
+            return &*iter;
         }
     }
 
-    return bids_.empty() ? nullptr : bids_.back().bid.get();
+    return bids_.empty() ? nullptr : &bids_.back();
 }
 
 const std::vector<Trick>& Hand::tricks() const {

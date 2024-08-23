@@ -20,12 +20,13 @@ class Hand {
     Player* leader_;
     Suit* trump_;
     std::vector<BidPlay> bids_;
+    Player* declarer() const;
 
    public:
     Hand(std::array<Player*, 4> players);
     bool done_playing() const;
     bool done_bidding() const;
-    const Bid* contract() const;
+    const BidPlay* contract() const;
     const std::vector<Trick>& tricks() const;
     const std::array<Player*, 4>& players() const;
     const Trick& play_trick();

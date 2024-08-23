@@ -42,8 +42,12 @@ std::unique_ptr<Bid> Player::play_bid(const std::vector<BidPlay>& bids) {
     return choice;
 }
 
-Player* Player::next() const {
+Player* const Player::next() const {
     return next_;
+}
+
+Player* const Player::partner() const {
+    return partner_;
 }
 
 char Player::position() const {
@@ -74,6 +78,7 @@ const std::vector<Card*> Player::legal_cards(const Trick& t) const {
 void Player::configure(std::array<Player*, 4>& players) {
     for (int i = 0; i < 4; ++i) {
         players[i]->next_ = players[(i + 1) % 4];
+        players[i]->partner_ = players[(i + 2) % 4];
     }
 
     players[0]->position_ = 'N';

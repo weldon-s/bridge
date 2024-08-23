@@ -16,6 +16,7 @@ class Trick;
 class Player {
     char position_{' '};
     Player* next_{nullptr};
+    Player* partner_{nullptr};
     std::vector<Card*> cards_;
     virtual const Card& select_card(const Trick& t) = 0;
     virtual std::unique_ptr<Bid> select_bid(const std::vector<BidPlay>& bids) = 0;
@@ -30,7 +31,8 @@ class Player {
 
     const Card& play_card(const Trick& t);
     std::unique_ptr<Bid> play_bid(const std::vector<BidPlay>& bids);
-    Player* next() const;
+    Player* const next() const;
+    Player* const partner() const;
     char position() const;
 
     static void configure(std::array<Player*, 4>& players);
