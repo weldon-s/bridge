@@ -4,7 +4,7 @@
 #include <iostream>
 
 #include "card.h"
-#include "player.h"
+#include "players/player.h"
 
 std::ostream& operator<<(std::ostream& out, const Card& c);
 std::ostream& operator<<(std::ostream& out, const Player& p);

@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "card.h"
-#include "player.h"
+#include "players/player.h"
 
 Hand::Hand(std::array<Player*, 4> players) : cards_{Card::all()}, players_{players}, leader_{nullptr}, trump_{nullptr} {
     std::random_device rd;

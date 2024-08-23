@@ -1,7 +1,7 @@
 #include "trick.h"
 
 #include "card.h"
-#include "player.h"
+#include "players/player.h"
 
 const Suit* Trick::leading() const {
     return leading_;

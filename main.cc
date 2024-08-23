@@ -2,10 +2,10 @@
 
 #include <iostream>
 
-#include "double.h"
+#include "bids/double.h"
+#include "bids/levelbid.h"
 #include "hand.h"
-#include "levelbid.h"
-#include "randomplayer.h"
+#include "players/randomplayer.h"
 #include "view.h"
 
 int main() {

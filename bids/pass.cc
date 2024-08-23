@@ -1,4 +1,4 @@
-#include "pass.h"
+#include "bids/pass.h"
 
 Pass::Pass(const Bid& previous) : previous_{previous} {}
 

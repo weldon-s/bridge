@@ -1,13 +1,13 @@
-#ifndef DOUBLE_H
-#define DOUBLE_H
+#ifndef PASS_H
+#define PASS_H
 
-#include "bid.h"
+#include "bids/bid.h"
 
-class Double : public Bid {
+class Pass : public Bid {
     const Bid& previous_;
 
    public:
-    Double(const Bid& previous);
+    Pass(const Bid& previous);
 
     std::string name() const override;
     int level() const override;

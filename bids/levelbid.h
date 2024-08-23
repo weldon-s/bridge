@@ -1,7 +1,7 @@
 #ifndef LEVELBID_H
 #define LEVELBID_H
 
-#include "bid.h"
+#include "bids/bid.h"
 
 class LevelBid : public Bid {
     const int level_;
