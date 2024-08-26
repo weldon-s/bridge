@@ -31,7 +31,7 @@ Hand::Hand(std::array<Player*, 4> players) : cards_{Card::all()}, players_{playe
 
 const Trick& Hand::play_trick() {
     if (!leader_) {
-        leader_ = declarer();
+        leader_ = declarer()->next();
     }
 
     Trick t{contract()->bid->suit()};
@@ -106,6 +106,22 @@ const BidPlay* Hand::contract() const {
     }
 
     return bids_.empty() ? nullptr : &bids_.back();
+}
+
+int Hand::tricks_taken() const {
+    const Player* decl{declarer()};
+
+    int count{0};
+
+    for (const Trick& t : tricks_) {
+        const Player* winner{&t.winner()};
+
+        if ((decl == winner) || (decl->partner() == winner)) {
+            ++count;
+        }
+    }
+
+    return count;
 }
 
 const std::vector<Trick>& Hand::tricks() const {

@@ -44,5 +44,7 @@ int main() {
                   << std::endl;
     }
 
+    std::cout << "Declarer and dummy took " << h.tricks_taken() << " tricks " << std::endl;
+
     return 0;
 }

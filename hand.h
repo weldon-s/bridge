@@ -26,6 +26,7 @@ class Hand {
     Hand(std::array<Player*, 4> players);
     bool done_playing() const;
     bool done_bidding() const;
+    int tricks_taken() const;
     const BidPlay* contract() const;
     const std::vector<Trick>& tricks() const;
     const std::array<Player*, 4>& players() const;
