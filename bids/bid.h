@@ -8,14 +8,24 @@
 class Player;
 
 class Bid {
+   private:
+    static const int book_size{6};
+
+    virtual int contract_points(int taken, bool vulnerable) const;
+    virtual int overtrick_points(int taken, bool vulnerable) const;
+    virtual int slam_points(int taken, bool vulnerable) const;
+    virtual int doubling_points(int taken, bool vulnerable) const;
+    virtual int penalty_points(int taken, bool vulnerable) const;
+    virtual int game_points(int taken, bool vulnerable) const;
+
    public:
     Bid(bool pass);
     const bool pass;
     bool operator<(const Bid& other) const;
+    int points(int taken, bool vulnerable) const;
     virtual std::string name() const = 0;
     virtual int level() const = 0;
     virtual const Suit& suit() const = 0;
-    // TODO method to get points
     virtual ~Bid();
 };
 

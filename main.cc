@@ -45,6 +45,7 @@ int main() {
     }
 
     std::cout << "Declarer and dummy took " << h.tricks_taken() << " tricks " << std::endl;
+    std::cout << "Points: " << h.contract()->bid->points(h.tricks_taken(), false) << std::endl;
 
     return 0;
 }
