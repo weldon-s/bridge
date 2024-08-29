@@ -8,7 +8,6 @@
 class Player;
 
 class Bid {
-   private:
    public:
     Bid(bool pass);
     static const int book_size{6};
@@ -22,6 +21,9 @@ class Bid {
     virtual int doubling_points(int taken, bool vulnerable) const;
     virtual int penalty_points(int taken, bool vulnerable) const;
     virtual int game_points(int taken, bool vulnerable) const;
+
+    // positive if overtricks, 0 if made exactly, negative if undertricks
+    int difference_from_contract(int taken) const;
 
     int points(int taken, bool vulnerable) const;
     virtual std::string name() const = 0;

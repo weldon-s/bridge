@@ -14,8 +14,12 @@ int Bid::points(int taken, bool vulnerable) const {
     return level() == 0 ? 0 : contract_points(taken, vulnerable) + overtrick_points(taken, vulnerable) + slam_points(taken, vulnerable) + doubling_points(taken, vulnerable) + game_points(taken, vulnerable) - penalty_points(taken, vulnerable);
 }
 
+int Bid::difference_from_contract(int taken) const {
+    return taken - (level() + book_size);
+}
+
 int Bid::contract_points(int taken, bool vulnerable) const {
-    if (taken < (level() + book_size)) {
+    if (difference_from_contract(taken) < 0) {
         return 0;
     }
 
@@ -31,7 +35,7 @@ int Bid::contract_points(int taken, bool vulnerable) const {
 }
 
 int Bid::overtrick_points(int taken, bool vulnerable) const {
-    int overtricks{taken - (level() + book_size)};
+    int overtricks{difference_from_contract(taken)};
 
     if (overtricks <= 0) {
         return 0;
@@ -49,11 +53,13 @@ int Bid::overtrick_points(int taken, bool vulnerable) const {
 }
 
 int Bid::slam_points(int taken, bool vulnerable) const {
-    if ((level() == 6) && (taken > (6 + book_size))) {
+    bool made{difference_from_contract(taken) >= 0};
+
+    if ((level() == 6) && made) {
         return vulnerable ? 750 : 500;
     }
 
-    if ((level() == 7) && (taken > (7 + book_size))) {
+    if ((level() == 7) && made) {
         return vulnerable ? 1500 : 1000;
     }
 
@@ -65,7 +71,7 @@ int Bid::doubling_points(int taken, bool vulnerable) const {
 }
 
 int Bid::penalty_points(int taken, bool vulnerable) const {
-    int undertricks{level() + book_size - taken};
+    int undertricks{-difference_from_contract(taken)};
 
     if (undertricks <= 0) {
         return 0;
@@ -75,7 +81,7 @@ int Bid::penalty_points(int taken, bool vulnerable) const {
 }
 
 int Bid::game_points(int taken, bool vulnerable) const {
-    if (taken >= (level() + book_size)) {
+    if (difference_from_contract(taken) >= 0) {
         if (contract_points(taken, vulnerable) < 100) {
             return 50;
         }

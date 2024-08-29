@@ -13,7 +13,7 @@ Double::Double(const Bid& previous) : Bid{false}, previous_{previous} {
     }
 }
 
-constexpr bool Double::is_redoubled() const {
+bool Double::is_redoubled() const {
     return previous_.name().back() == 'X';
 }
 
@@ -34,7 +34,7 @@ int Double::contract_points(int taken, bool vulnerable) const {
 }
 
 int Double::overtrick_points(int taken, bool vulnerable) const {
-    int overtricks{taken - (level() + book_size)};
+    int overtricks{difference_from_contract(taken)};
 
     if (overtricks <= 0) {
         return 0;
@@ -54,7 +54,7 @@ int Double::overtrick_points(int taken, bool vulnerable) const {
 }
 
 int Double::doubling_points(int taken, bool vulnerable) const {
-    if (taken >= (level() + book_size)) {
+    if (difference_from_contract(taken) >= 0) {
         return is_redoubled() ? 100 : 50;
     }
 
@@ -70,7 +70,7 @@ int Double::penalty_points(int taken, bool vulnerable) const {
         return previous_.penalty_points(taken, vulnerable) * 2;
     }
 
-    int undertricks{level() + book_size - taken};
+    int undertricks{-difference_from_contract(taken)};
 
     if (undertricks <= 0) {
         return 0;

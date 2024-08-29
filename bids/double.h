@@ -5,7 +5,7 @@
 
 class Double : public Bid {
     const Bid& previous_;
-    constexpr bool is_redoubled() const;
+    bool is_redoubled() const;
 
    protected:
     virtual int contract_points(int taken, bool vulnerable) const override;
