@@ -21,6 +21,7 @@ class Card {
     static const int max_rank{14};
 
     static std::vector<std::unique_ptr<Card>> all();
+    static std::vector<Card*> shuffle_all(const std::vector<std::unique_ptr<Card>>& unique);
 };
 
 #endif

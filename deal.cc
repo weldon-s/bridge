@@ -1,4 +1,4 @@
-#include "hand.h"
+#include "deal.h"
 
 #include <array>
 #include <random>
@@ -7,21 +7,15 @@
 #include "card.h"
 #include "players/player.h"
 
-Hand::Hand(std::array<Player*, 4> players) : cards_{Card::all()}, players_{players}, leader_{nullptr}, trump_{nullptr} {
+Deal::Deal(std::array<Player*, 4> players, std::vector<Card*> perm) : cards_{perm}, players_{players}, leader_{nullptr}, trump_{nullptr} {
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dist(0, 3);
 
     std::array<std::vector<Card*>, 4> player_cards;
 
-    for (const std::unique_ptr<Card>& c : cards_) {
-        int player{dist(gen)};
-
-        while (player_cards[player].size() == num_tricks) {
-            player = dist(gen);
-        }
-
-        player_cards[player].emplace_back(c.get());
+    for (int i = 0; i < cards_.size(); ++i) {
+        player_cards[i % 4].emplace_back(cards_[i]);
     }
 
     for (int i = 0; i < 4; ++i) {
@@ -29,7 +23,7 @@ Hand::Hand(std::array<Player*, 4> players) : cards_{Card::all()}, players_{playe
     }
 }
 
-const Trick& Hand::play_trick() {
+const Trick& Deal::play_trick() {
     if (!leader_) {
         leader_ = declarer()->next();
     }
@@ -48,7 +42,7 @@ const Trick& Hand::play_trick() {
     return tricks_[tricks_.size() - 1];
 }
 
-Player* Hand::declarer() const {
+Player* Deal::declarer() const {
     const BidPlay& contr{*contract()};
 
     for (auto iter = bids_.begin(); iter != bids_.end(); ++iter) {
@@ -62,7 +56,7 @@ Player* Hand::declarer() const {
     return nullptr;
 }
 
-const BidPlay& Hand::play_bid() {
+const BidPlay& Deal::play_bid() {
     // if no bids, assume first player is dealer
     // otherwise, get bid from player following last bidder
     Player* current{bids_.empty() ? players_[0] : bids_.back().player.next()};
@@ -73,12 +67,12 @@ const BidPlay& Hand::play_bid() {
     return bids_.back();
 }
 
-bool Hand::done_playing() const {
+bool Deal::done_playing() const {
     // if we are passed out or we have played 13 tricks, we are done
     return (bids_.back().bid->level() == 0) || (tricks_.size() == 13);
 }
 
-bool Hand::done_bidding() const {
+bool Deal::done_bidding() const {
     // we will always have >= 4 bids if we are done
     // if first 3 pass, 4th can bid
     // otherwise, at least one player has bid + we need 3 passes to confirm their bid
@@ -98,7 +92,7 @@ bool Hand::done_bidding() const {
     return true;
 }
 
-const BidPlay* Hand::contract() const {
+const BidPlay* Deal::contract() const {
     for (auto iter = bids_.rbegin(); iter != bids_.rend(); ++iter) {
         if (!iter->bid->pass) {
             return &*iter;
@@ -108,7 +102,7 @@ const BidPlay* Hand::contract() const {
     return bids_.empty() ? nullptr : &bids_.back();
 }
 
-int Hand::tricks_taken() const {
+int Deal::tricks_taken() const {
     const Player* decl{declarer()};
 
     int count{0};
@@ -124,10 +118,10 @@ int Hand::tricks_taken() const {
     return count;
 }
 
-const std::vector<Trick>& Hand::tricks() const {
+const std::vector<Trick>& Deal::tricks() const {
     return tricks_;
 }
 
-const std::array<Player*, 4>& Hand::players() const {
+const std::array<Player*, 4>& Deal::players() const {
     return players_;
 }

@@ -1,5 +1,7 @@
 #include "card.h"
 
+#include <algorithm>
+#include <random>
 #include <stdexcept>
 
 Card::Card(int r, const Suit& s) : rank{r}, suit{s} {
@@ -47,5 +49,19 @@ std::vector<std::unique_ptr<Card>> Card::all() {
         cards.emplace_back(std::unique_ptr<Card>(new Card{i, Suit::clubs}));
     }
 
+    return cards;
+}
+
+std::vector<Card*> Card::shuffle_all(const std::vector<std::unique_ptr<Card>>& unique) {
+    std::vector<Card*> cards{};
+
+    for (int i = 0; i < unique.size(); ++i) {
+        cards.emplace_back(unique[i].get());
+    }
+
+    std::random_device rd;
+    std::mt19937 mt{rd()};
+
+    std::shuffle(cards.begin(), cards.end(), mt);
     return cards;
 }
